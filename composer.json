@@ -1,0 +1,21 @@
+{
+    "name": "innomatic/innomatic-legacy-bridge",
+    "description": "Innomatic Platform legacy bridge.",
+    "homepage": "http://www.innomatic.io",
+    "license": "BSD-3-Clause",
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "Innomatic Team",
+            "homepage": "http://www.innomatic.io"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Innomatic\\": "src/"
+        }
+    }
+}
