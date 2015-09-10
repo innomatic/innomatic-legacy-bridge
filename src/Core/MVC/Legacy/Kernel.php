@@ -7,7 +7,7 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  1999-2014 Innomatic Company
+ * @copyright  1999-2014 Innoteam Srl
  * @license    http://www.innomatic.io/license/ New BSD License
  * @link       http://www.innomatic.io
  */
@@ -17,7 +17,7 @@ namespace Innomatic\Core\MVC\Legacy;
  * This class provides an interface to the legacy stack.
  *  
  * @author     Alex Pagnoni <alex.pagnoni@innomatic.io>
- * @copyright  1999-2014 Innomatic Company
+ * @copyright  1999-2014 Innoteam Srl
  * @since      7.0.0 introduced
  */
 class Kernel 
