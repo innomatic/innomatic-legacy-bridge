@@ -3,7 +3,6 @@
     "description": "Innomatic Platform legacy bridge.",
     "homepage": "http://www.innomatic.io",
     "license": "BSD-3-Clause",
-    "minimum-stability": "dev",
     "authors": [
         {
             "name": "Innomatic Team",
