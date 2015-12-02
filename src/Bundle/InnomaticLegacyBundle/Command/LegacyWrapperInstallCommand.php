@@ -18,6 +18,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Filesystem\Exception\IOException;
+use Symfony\Component\Finder\Finder;
 
 class LegacyWrapperInstallCommand extends ContainerAwareCommand
 {
@@ -28,7 +30,7 @@ class LegacyWrapperInstallCommand extends ContainerAwareCommand
             ->setDescription('Installs assets from Innomatic legacy installation and wrapper scripts')
             ->addArgument(
                 'target',
-                InputOption::VALUE_OPTIONAL,
+                InputOption::VALUE_REQUIRED,
                 'The target directory'
             )
             ->addOption('symlink', null, InputOption::VALUE_NONE, 'Symlinks the assets instead of copying it')
@@ -38,21 +40,43 @@ class LegacyWrapperInstallCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $targetArg = rtrim($input->getArgument('target'), '/');
+        if (!is_dir($targetArg)) {
+            throw new \InvalidArgumentException(sprintf('The target directory "%s" does not exist.', $input->getArgument('target')));
+        }
+
         $filesystem = $this->getContainer()->get('filesystem');
         $legacyRootDir = rtrim($this->getContainer()->getParameter('innomatic_legacy.root_dir'), '/');
 
-        //$output->writeln( sprintf( "Installing Innomatic legacy assets from $legacyRootDir using the <comment>%s</comment> option", $input->getOption( 'symlink' ) ? 'symlink' : 'hard copy' ) );
+        $output->writeln(sprintf("Installing Innomatic legacy assets from $legacyRootDir using the <comment>%s</comment> option", $input->getOption('symlink') ? 'symlink' : 'hard copy'));
 
+        $symlink = $input->getOption('symlink');
 
-        $name = $input->getArgument('target');
+        $targetDir = "$targetArg/shared";
+        $originDir = "$legacyRootDir/innomatic/shared";
 
-        if ($name) {
-            $text = 'Test '.$name[0];
-        } else {
-            $text = 'Test';
+        $filesystem->remove($targetDir);
+
+        if ($symlink) {
+            if ($input->getOption('relative')) {
+                $originDir = $filesystem->makePathRelative($originDir, realpath($targetArg));
+            }
+
+            try {
+                $filesystem->symlink($originDir, $targetDir);
+            } catch (IOException $e) {
+                $symlink = false;
+                $output->writeln('It looks like your system doesn\'t support symbolic links, so will fallback to hard copy instead!');
+            }
         }
 
-        $output->writeln('<info>Information</info>');
-        $output->writeln($text);
+        if (!$symlink) {
+            $filesystem->mkdir($targetDir, 0777);
+            // We use a custom iterator to ignore VCS files
+            $currentDir = getcwd();
+            chdir(realpath($targetArg));
+            $filesystem->mirror($originDir, 'shared', Finder::create()->in($originDir));
+            chdir($currentDir);
+        }
     }
 }
