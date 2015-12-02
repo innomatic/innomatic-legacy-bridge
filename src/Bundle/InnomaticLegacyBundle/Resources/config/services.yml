@@ -1,4 +1,7 @@
 parameters:
+    innomatic_legacy.enabled: true
+    innomatic_legacy.root_dir: %kernel.root_dir%/../innomatic_legacy
+
     innomatic_legacy.router.class: Innomatic\Bundle\InnomaticLegacyBundle\Routing\LegacyRouter
     innomatic_legacy.controller.class: Innomatic\Bundle\InnomaticLegacyBundle\Controller\LegacyKernelController
     innomatic_legacy.kernel.class: Innomatic\Core\MVC\Legacy\Kernel

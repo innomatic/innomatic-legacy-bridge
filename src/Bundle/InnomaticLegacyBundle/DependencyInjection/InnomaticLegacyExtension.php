@@ -22,7 +22,20 @@ class InnomaticLegacyExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container)
     {
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.yml');
+        $configuration = new Configuration();
+        $config = $this->processConfiguration($configuration, $configs);
+
+        // Set if the Innomatic legacy is enabled
+        $container->setParameter('innomatic_legacy.enabled', $config['enabled']);
+        if ($config['enabled']) {
+            $loader = new Loader\YamlFileLoader(
+                $container,
+                new FileLocator(__DIR__ . '/../Resources/config')
+            );
+            $loader->load('services.yml');
+
+            // Set the Innomatic legacy root directory
+            $container->setParameter('innomatic_legacy.root_dir', $config['root_dir']);
+        }
     }
 }
