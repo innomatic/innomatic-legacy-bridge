@@ -40,7 +40,7 @@ class Configuration implements ConfigurationInterface
                                     return !file_exists($v);
                                 }
                             )
-                            ->thenInvalid( "Provided Innomatic Legacy root dir does not exist!'" )
+                            ->thenInvalid( "Provided Innomatic Legacy root dir does not exist!" )
                     ->end()
                 ->end();
 

@@ -25,6 +25,8 @@ class InnomaticLegacyExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
+        print_r($config);
+
         // Set if the Innomatic legacy is enabled
         $container->setParameter('innomatic_legacy.enabled', $config['enabled']);
         if ($config['enabled']) {
@@ -37,5 +39,7 @@ class InnomaticLegacyExtension extends Extension
             // Set the Innomatic legacy root directory
             $container->setParameter('innomatic_legacy.root_dir', $config['root_dir']);
         }
+
+        //print_r($container);
     }
 }
