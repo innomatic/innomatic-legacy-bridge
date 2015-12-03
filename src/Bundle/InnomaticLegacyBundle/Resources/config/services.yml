@@ -2,26 +2,20 @@ parameters:
     innomatic_legacy.enabled: true
     innomatic_legacy.root_dir: %kernel.root_dir%/../innomatic_legacy
 
-    innomatic_legacy.router.class: Innomatic\Bundle\InnomaticLegacyBundle\Routing\LegacyRouter
-    innomatic_legacy.controller.class: Innomatic\Bundle\InnomaticLegacyBundle\Controller\LegacyKernelController
-    innomatic_legacy.kernel.class: Innomatic\Core\MVC\Legacy\Kernel
-
-    innomatic_legacy.legacy_cache_purger.class: Innomatic\Bundle\InnomaticLegacyBundle\Cache\LegacyCachePurger
-
 services:
     innomatic_legacy.kernel:
-        class: %innomatic_legacy.kernel.class%
+        class: Innomatic\Core\MVC\Legacy\Kernel
         lazy: true
 
     innomatic_legacy.router:
-        class: %innomatic_legacy.router.class%
+        class: Innomatic\Bundle\InnomaticLegacyBundle\Routing\LegacyRouter
         arguments: [@?request_context, @?logger]
         tags:
             - {name: router, priority: -255}
         lazy: true
 
     innomatic_legacy.controller:
-        class: %innomatic_legacy.controller.class%
+        class: Innomatic\Bundle\InnomaticLegacyBundle\Controller\LegacyKernelController
         arguments:
             - @router
         calls:
@@ -29,7 +23,7 @@ services:
             - [setContainer, [@service_container]]
 
     innomatic_legacy.legacy_cache_purger:
-        class: %innomatic_legacy.legacy_cache_purger.class%
+        class: Innomatic\Bundle\InnomaticLegacyBundle\Cache\LegacyCachePurger
         arguments:
             - "@innomatic_legacy.kernel"
             - %innomatic_legacy.root_dir%
