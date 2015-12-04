@@ -28,11 +28,14 @@ class LegacyCachePurger implements CacheClearerInterface
      */
     private $legacyKernel;
 
+    private $legacyRootDir;
+
     public function __construct(
         Kernel $legacyKernel,
         $legacyRootDir
     ) {
         $this->legacyKernel = $legacyKernel;
+        $this->legacyRootDir = $legacyRootDir;
     }
 
     /**
@@ -42,6 +45,10 @@ class LegacyCachePurger implements CacheClearerInterface
      */
     public function clear($cacheDir)
     {
+        if (is_dir($this->legacyRootDir.'/innomatic/setup')) {
+            return;
+        }
+
         $this->legacyKernel->runCallback(
             function () {
                 $gc = new CacheGarbageCollector();
