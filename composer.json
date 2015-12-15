@@ -2,7 +2,7 @@
     "name": "innomatic/innomatic-legacy-bridge",
     "description": "Innomatic Platform legacy bridge.",
     "homepage": "http://www.innomatic.io",
-    "license": "GPL-2.0",
+    "license": "MIT",
     "authors": [
         {
             "name": "Innomatic Team",
