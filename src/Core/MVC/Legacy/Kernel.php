@@ -87,7 +87,7 @@ class Kernel
         return $result;
     }
 
-    public function run()
+    public function run($webApp = '')
     {
         // Change current directory to the legacy stack.
         $platformHome = getcwd();
@@ -95,7 +95,7 @@ class Kernel
         chdir($platformHome . '/../innomatic_legacy/innomatic');
             
         // Saves webapp home.
-        $webAppHome = getcwd() . '/';
+        $webAppHome = getcwd().(strlen($webApp) ? '/../'.$webApp.'/' : '/');
         
         // Start the legacy Root Container and the legacy autoloader.
         require_once getcwd() . '/core/classes/innomatic/core/RootContainer.php';
