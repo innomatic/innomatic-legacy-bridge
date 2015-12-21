@@ -13,6 +13,8 @@
  */
 namespace Innomatic\Core\MVC\Legacy;
 
+use Symfony\Component\DependencyInjection\ContainerAware;
+
 /**
  * This class provides an interface to the legacy stack.
  *  
@@ -20,7 +22,7 @@ namespace Innomatic\Core\MVC\Legacy;
  * @copyright  1999-2014 Innoteam Srl
  * @since      7.0.0 introduced
  */
-class Kernel 
+class Kernel extends ContainerAware
 {
     /**
      * Legacy stack callback running state.
@@ -54,6 +56,9 @@ class Kernel
             // Start the legacy Root Container and the legacy autoloader.
             require_once getcwd().'/innomatic/core/classes/innomatic/core/RootContainer.php';
             $rootContainer = \Innomatic\Core\RootContainer::instance('\Innomatic\Core\RootContainer');
+
+            // Add the Symfony service container
+            $rootContainer->setServiceContainer($this->container);
 
             // Start the legacy Innomatic Container.
             $innomatic = \Innomatic\Core\InnomaticContainer::instance('\Innomatic\Core\InnomaticContainer');
@@ -100,7 +105,10 @@ class Kernel
         // Start the legacy Root Container and the legacy autoloader.
         require_once getcwd() . '/core/classes/innomatic/core/RootContainer.php';
         $rootContainer = \Innomatic\Core\RootContainer::instance('\Innomatic\Core\RootContainer');
-        
+
+        // Add the Symfony service container
+        $rootContainer->setServiceContainer($this->container);
+
         // Starts the WebAppContainer.
         $container = \Innomatic\Webapp\WebAppContainer::instance('\Innomatic\Webapp\WebAppContainer');
         

@@ -6,6 +6,8 @@ services:
     innomatic_legacy.kernel:
         class: Innomatic\Core\MVC\Legacy\Kernel
         lazy: true
+        calls:
+            - [setContainer, [@service_container]]
 
     innomatic_legacy.router:
         class: Innomatic\Bundle\InnomaticLegacyBundle\Routing\LegacyRouter
