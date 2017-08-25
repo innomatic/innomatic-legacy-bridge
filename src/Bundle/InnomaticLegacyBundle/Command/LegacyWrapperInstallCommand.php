@@ -7,7 +7,7 @@
  * This source file is subject to the new BSD license that is bundled
  * with this package in the file LICENSE.
  *
- * @copyright  2015 Innoteam Srl
+ * @copyright  2015-2017 Innoteam Srl
  * @license    https://innomatic.atlassian.net/wiki/display/IMP/Innomatic+License New BSD License
  * @link       http://www.innomatic.io
  */
